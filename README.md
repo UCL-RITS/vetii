@@ -1,7 +1,7 @@
 # VETII Boat Detection
 ## Detecting fishing boats in Sassoon Docks
 
-For more information, please refer to the [wiki](https://github.com/harryjmoss/vetii-boat-detection/wiki) - *currently under construction, your best bet for information is here!*
+For more information, please refer to the [wiki](https://github.com/UCL-RITS/vetii/wiki) - *currently under construction, your best bet for information is here!*
 ## Contents
 * [Getting Started](#getting-started)
 * [Usage](#usage)
@@ -26,7 +26,7 @@ Get your own copy up and running by following these simple steps:
 
 1. Clone the repo
 ```sh
-git clone https://github.com/harryjmoss/vetii-boat-detection.git
+git clone https://github.com/UCL-RITS/vetii
 ```
 
 2. ???
@@ -35,11 +35,11 @@ git clone https://github.com/harryjmoss/vetii-boat-detection.git
 
 How to use the project once things are installed. WIP.
 
-_For more examples, please refer to the [wiki](https://github.com/harryjmoss/vetii-boat-detection/wiki)_.
+_For more examples, please refer to the [wiki](https://github.com/UCL-RITS/vetii/wiki)_.
 
 
 ## Contributing :pencil:
-A great place to get started is to first take a look at the [open issues](https://github.com/github_username/repo_name/issues). 
+A great place to get started is to first take a look at the [open issues](https://github.com/UCL-RITS/vetii/issues). 
 
 Once you've found something to work on, the suggested workflow is:
 
@@ -70,20 +70,17 @@ The branch naming convention is `iss_<issue-number>_<short_decription>`, where `
 ## Running tests :microscope:
 Code should be tested, where appropriate, before it is merged into the main branch. Contributing to existing tests or adding new ones will always be well received!
 
-Tests will also be run on travis (see the [travis configuration](.travis.yml)).
+Tests will also be run on travis (see the [travis configuration](.travis.yml)) - *TO BE ADDED*.
 
 ## Contact :envelope:
 
 Harry Moss - [@invariantmoss](https://twitter.com/invariantmoss)
 
-Project Link: [https://github.com/harryjmoss/vetii-boat-detection](https://github.com/harryjmoss/vetii-boat-detection)
-
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/harryjmoss/vetii-boat-detection.svg?style=flat-square
-[contributors-url]: https://github.com/harryjmoss/vetii-boat-detection/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/harryjmoss/vetii-boat-detection.svg?style=flat-square
-[forks-url]: https://github.com/harryjmoss/vetii-boat-detection/network/members
-[issues-shield]: https://img.shields.io/github/issues/harryjmoss/vetii-boat-detection.svg?style=flat-square
-[issues-url]: https://github.com/harryjmoss/vetii-boat-detection/issues
+[contributors-shield]: https://img.shields.io/github/contributors/ucl-rits/vetii.svg?style=flat-square
+[contributors-url]: https://github.com/ucl-rits/vetii/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ucl-rits/vetii.svg?style=flat-square
+[forks-url]: https://github.com/ucl-rits/vetii/network/members
+[issues-shield]: https://img.shields.io/github/issues/ucl-rits/vetii.svg?style=flat-square
+[issues-url]: https://github.com/ucl-rits/vetii/issues
