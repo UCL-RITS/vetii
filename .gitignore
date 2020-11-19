@@ -137,3 +137,6 @@ dmypy.json
 data/satellite_images_altview_highres/*
 simrdwn/
 *~
+data_preprocessing/masati/MASATI-v2/
+data_preprocessing/masati/PNGImages/
+data_preprocessing/masati/xml_annotations/
