@@ -75,12 +75,3 @@ Tests will also be run on travis (see the [travis configuration](.travis.yml)) -
 ## Contact :envelope:
 
 Harry Moss - [@invariantmoss](https://twitter.com/invariantmoss)
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/ucl-rits/vetii.svg?style=flat-square
-[contributors-url]: https://github.com/ucl-rits/vetii/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/ucl-rits/vetii.svg?style=flat-square
-[forks-url]: https://github.com/ucl-rits/vetii/network/members
-[issues-shield]: https://img.shields.io/github/issues/ucl-rits/vetii.svg?style=flat-square
-[issues-url]: https://github.com/ucl-rits/vetii/issues
