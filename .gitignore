@@ -140,3 +140,5 @@ simrdwn/
 data_preprocessing/masati/MASATI-v2/
 data_preprocessing/masati/PNGImages/
 data_preprocessing/masati/xml_annotations/
+data_preprocessing/masati/*.txt
+data_preprocessing/masati/yolo_annotations/

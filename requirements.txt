@@ -1,2 +1,5 @@
 gdown
 dvc
+numpy
+pandas
+sklearn
