@@ -44,6 +44,36 @@ def output_files(train, test):
     print("Written test annotation set to: {}".format(test_out_name))
     return
 
+def move_image_files(train,test):
+    train_dir_name = "train"
+    test_dir_name = "validation"
+    img_dir_name = "PNGImages"
+    annotations_dir_name = "xml_annotations"
+    
+    train_img_dir = os.path.join(os.getcwd(), train_dir_name)
+    test_img_dir = os.path.join(os.getcwd(), test_dir_name)
+    if not os.path.exists(train_img_dir):
+        os.mkdir(train_img_dir)
+    if not os.path.exists(test_img_dir):
+        os.mkdir(test_img_dir)
+
+    train_img_paths = train['Filename'].tolist()
+    test_img_paths = test['Filename'].tolist()
+
+    for img_file in train_img_paths:
+        print(img_file)
+        old_img_file_path = img_file.replace(annotations_dir_name, img_dir_name)
+        old_img_file_path = old_img_file_path.replace("xml", "png")
+        new_img_file_path = old_img_file_path.replace(img_dir_name, train_dir_name)
+        os.rename(old_img_file_path, new_img_file_path)
+
+    for img_file in test_img_paths:
+        old_img_file_path = img_file.replace(annotations_dir_name, img_dir_name)
+        old_img_file_path = old_img_file_path.replace("xml", "png")
+        new_img_file_path = old_img_file_path.replace(img_dir_name, test_dir_name)
+        os.rename(old_img_file_path, new_img_file_path)
+    return
+
 def main(args):
 
     if len(args.annotation_paths_file) < 1:
@@ -57,6 +87,7 @@ def main(args):
         train_set, test_set = split_dataset(args.annotation_paths_file, args.trainpct)
 
     output_files(train_set, test_set)
+    move_image_files(train_set, test_set)
     return
 
 if __name__ == "__main__":
