@@ -1,0 +1,4 @@
+[core]
+    remote = scratchremote
+['remote "scratchremote"']
+    url = /home/cceaoss/Scratch/dvc-storage
