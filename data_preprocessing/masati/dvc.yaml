@@ -29,3 +29,19 @@ stages:
     - validation/
     - xml_annotations_test.txt
     - xml_annotations_train.txt
+  get_json_labels:
+    cmd: python convert_masatixml_to_json_labels.py
+    deps:
+    - convert_masatixml_to_json_labels.py
+    - xml_annotations_test.txt
+    - xml_annotations_train.txt
+    params:
+    - get_json_labels.classes
+    - get_json_labels.is_masati
+    - get_json_labels.output_json_test
+    - get_json_labels.output_json_train
+    - get_json_labels.test_labels
+    - get_json_labels.train_labels
+    outs:
+    - coco_json_annotations/annotations_test.json
+    - coco_json_annotations/annotations_train.json

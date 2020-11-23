@@ -1,8 +1,8 @@
-import argparse
 import os
 import json
 import xml.etree.ElementTree as ET
 from tqdm import tqdm
+import yaml
 
 def map_class_to_id(classes):
     """
@@ -17,7 +17,7 @@ def map_class_to_id(classes):
     class_ids = list(range(1, len(classes)+1))
     return dict(zip(classes, class_ids))
 
-def convert_xml(label_list, class_index, output_json, is_masati, output_dir):
+def convert_xml(label_type, label_list, class_index, output_json, is_masati, output_dir, output_files):
     """
     Function to convert individual xml files to a json format and produce
     a single composite file for use as an input to NN models.
@@ -25,11 +25,12 @@ def convert_xml(label_list, class_index, output_json, is_masati, output_dir):
     Produces output json files for the training and test sets.
 
     Args:
-        label_list (tuple[test/train filename, test/train files]): list-of-lists of xml labels, separated by training and test set
+        label_list (tuple[train/test filename, train/test files]): list-of-lists of xml labels, separated by training and test set
         class_index (Dict[str, int]): Dictionary mapping class labels to the class id (an integer)
         output_json (Dict[str, list/str): Output json dictionary with entries either [str, list] or [str, str]
         is_masati (bool): Bool signifying if we're processing the MASATI-v2 dataset
         output_dir (str): Directory where output json files are created
+        output_files (dict[str,str]): dictionary containing output json filenames for the train and test set
     
     Returns: None
     """
@@ -39,8 +40,14 @@ def convert_xml(label_list, class_index, output_json, is_masati, output_dir):
 
     # Derive output file name from the input file supplied
 
-
-    output_json_file = os.path.splitext(label_list[0].split("_",1)[-1])[0]+".json"
+    if label_type == "train":
+        output_json_file = output_files['train']
+    elif label_type == "test":
+        output_json_file = output_files['test']
+    else:
+        print("No label type found. Exiting.")
+        exit()
+    
     assert os.path.exists(output_dir)
     output_json_path = os.path.join(output_dir, output_json_file)
     
@@ -115,7 +122,7 @@ def convert_xml(label_list, class_index, output_json, is_masati, output_dir):
         # Dump json to string and write to file!
         out_json.write(json.dumps(output_json))
     return
-def prepare_for_conversion(labels, class_index, is_masati, output_dir):
+def prepare_for_conversion(labels, class_index, is_masati, output_dir, output_files):
     """
     Collects arguments and defines the output json structure for 
     use in convert_xml
@@ -125,6 +132,7 @@ def prepare_for_conversion(labels, class_index, is_masati, output_dir):
         class_index (dict[str,int]): dictionary mapping class labels to an int id
         is_masati (bool): bool denoting whether we're processing masasti
         output_dir (str): directory where output json files will be created
+        output_files (dict[str, str]): dictionary storing the names of the output files
 
     Returns: NoneType
     """
@@ -135,23 +143,40 @@ def prepare_for_conversion(labels, class_index, is_masati, output_dir):
         "annotations": [],
         "categories": []
     }
-    for label_type in labels:
-        convert_xml(label_type, class_index, output_json, is_masati, output_dir)
+    for label_type, label_contents in labels.items():
+        convert_xml(label_type, label_contents, class_index, output_json, is_masati, output_dir, output_files)
     return
 
-def main(args):
+def get_parameters():    
+    try:
+        with open("params.yaml",'r') as params_file:
+            params = yaml.safe_load(params_file)
+        
+            assert params['get_json_labels']['train_labels'] is not None
+            assert params['get_json_labels']['test_labels'] is not None
+            assert params['get_json_labels']['is_masati'] is not None
+            assert params['get_json_labels']['classes'] is not None
+            assert len(params['get_json_labels']['classes']) > 0
+            assert params['get_json_labels']['output_json_train'] is not None
+            assert params['get_json_labels']['output_json_test'] is not None
+            return params
+    except:
+        print("Failed to load parameter file. Exiting.")
+        exit()
+
+def main():
     """
     Convert xml-style image labels to coco-style json labels.
     Args:
-        args (argparse.Namespace object)
+        Requires file "params.yaml"
     """
+    params = get_parameters()
     
+    xml_annotations_train = params['get_json_labels']['train_labels']
+    xml_annotations_test = params['get_json_labels']['test_labels']
     
-    xml_annotations_train = args.train_labels
-    xml_annotations_test = args.test_labels
-    
-    is_masati = args.is_masati
-    class_index = map_class_to_id(args.classes)
+    is_masati = params['get_json_labels']['is_masati']
+    class_index = map_class_to_id(params['get_json_labels']['classes'])
 
     training_annotations = [line.rstrip() for line in open(xml_annotations_train)]
     test_annotations = [line.rstrip() for line in open(xml_annotations_test)]
@@ -162,28 +187,23 @@ def main(args):
     output_dir = os.path.join(os.getcwd(), "coco_json_annotations")
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
-
+    output_files = {
+        "train": params['get_json_labels']['output_json_train'],
+        "test": params['get_json_labels']['output_json_test']
+        }
+                    
     
-    labels = [training_set, test_set]
+    
+    labels = {"train": training_set, "test": test_set}
     prepare_for_conversion(
         labels,
         class_index,
         is_masati,
         output_dir,
+        output_files,
     )
     return
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--train_labels', type=str, default=None, required = True,
-                        help='annotation labels for training')
-    parser.add_argument('--test_labels', type=str, default=None, required = True,
-                        help='annotation labels for validation')
-    parser.add_argument('--classes', type=list, default=["boat"],
-                        help='list of classes in your dataset (only one for our MASATI testing)')
-    parser.add_argument('--is_masati', type=bool, default=True,
-                        help='Is this MASATI? If it is, we can hard-code a couple of things...')
-
-    args = parser.parse_args()
-    main(args)
+    main()

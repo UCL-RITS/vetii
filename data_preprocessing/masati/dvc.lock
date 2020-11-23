@@ -63,3 +63,31 @@ split_dataset:
   - path: xml_annotations_train.txt
     md5: 94d12da9a4e4045771a54c209206b4a0
     size: 138528
+get_json_labels:
+  cmd: python convert_masatixml_to_json_labels.py
+  deps:
+  - path: convert_masatixml_to_json_labels.py
+    md5: 4f46408ef55108429d2b4ffd5d990dcc
+    size: 7894
+  - path: xml_annotations_test.txt
+    md5: cdf8bca749a0bbdfc4d9bff0d94581d8
+    size: 46176
+  - path: xml_annotations_train.txt
+    md5: 94d12da9a4e4045771a54c209206b4a0
+    size: 138528
+  params:
+    params.yaml:
+      get_json_labels.classes:
+      - boat
+      get_json_labels.is_masati: true
+      get_json_labels.output_json_test: annotations_test.json
+      get_json_labels.output_json_train: annotations_train.json
+      get_json_labels.test_labels: xml_annotations_test.txt
+      get_json_labels.train_labels: xml_annotations_train.txt
+  outs:
+  - path: coco_json_annotations/annotations_test.json
+    md5: 585b6f8a11feaa4f16bc19ee40db15e0
+    size: 712255
+  - path: coco_json_annotations/annotations_train.json
+    md5: 16a96b52ed0766ae41bf93774d7c7e24
+    size: 521268
