@@ -30,3 +30,36 @@ get_yolo_labels:
     md5: ba577dbf3e3f8a1894c4c80f57a941cd.dir
     size: 194737
     nfiles: 2368
+split_dataset:
+  cmd: python train_test_split.py
+  deps:
+  - path: PNGImages
+    md5: d751713988987e9331980363e24189ce.dir
+    size: 0
+    nfiles: 0
+  - path: train_test_split.py
+    md5: c1ae4cfc990c168f57eafbd1f49ce9a5
+    size: 3901
+  - path: xml_annotations/
+    md5: cdf1ee07de65a723a88f34c71584ef64.dir
+    size: 1692433
+    nfiles: 2368
+  params:
+    params.yaml:
+      split_dataset.annotations_dir: xml_annotations
+      split_dataset.trainpct: 0.75
+  outs:
+  - path: train/
+    md5: e4224b66e9d70292eb6ee2e36a108e37.dir
+    size: 583774686
+    nfiles: 1776
+  - path: validation/
+    md5: a340ccdfd92b583a884f8154d1034a16.dir
+    size: 198690080
+    nfiles: 592
+  - path: xml_annotations_test.txt
+    md5: cdf8bca749a0bbdfc4d9bff0d94581d8
+    size: 46176
+  - path: xml_annotations_train.txt
+    md5: 94d12da9a4e4045771a54c209206b4a0
+    size: 138528

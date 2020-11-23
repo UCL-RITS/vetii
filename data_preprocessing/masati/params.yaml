@@ -1,0 +1,3 @@
+split_dataset:
+  annotations_dir: xml_annotations
+  trainpct: 0.75

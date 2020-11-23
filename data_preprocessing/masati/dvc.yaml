@@ -15,3 +15,17 @@ stages:
     - convert_xml_to_yolotxt.py
     outs:
     - yolo_annotations
+  split_dataset:
+    cmd: python train_test_split.py
+    deps:
+    - PNGImages/
+    - train_test_split.py
+    - xml_annotations/
+    params:
+    - split_dataset.annotations_dir
+    - split_dataset.trainpct
+    outs:
+    - train/
+    - validation/
+    - xml_annotations_test.txt
+    - xml_annotations_train.txt

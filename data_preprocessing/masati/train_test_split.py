@@ -1,17 +1,17 @@
 import os
 import numpy as np
 import pandas as pd
-import argparse
 from sklearn.model_selection import train_test_split
+import yaml
 
-def float_fraction(arg):
+def float_fraction(trainpct):
     """ Float bounded between 0.0 and 1.0 """
     try:
-        f = float(arg)
+        f = float(trainpct)
     except ValueError:    
-        raise argparse.ArgumentTypeError("Fraction must be a float")
+        raise Exception("Fraction must be a float")
     if f < 0.0 or f > 1.0:
-        raise argparse.ArgumentTypeError("Argument is a fraction! Must be <= 1.0 and >= 0.0")
+        raise Exception("Argument should be a fraction! Must be <= 1.0 and >= 0.0")
     return f
 
 
@@ -30,6 +30,7 @@ def split_dataset(dataset_file, trainpct):
         full_dataset = pd.DataFrame(dataset_file, columns=["Filename"])
     else:
         full_dataset = pd.read_csv(dataset_file, names=["Filename"])
+    print("You've chosen a training percentage of: {} (this variable has type: {})".format(trainpct, type(trainpct)))
     testsize = 1.-trainpct
     train, test = train_test_split(full_dataset, test_size = testsize, shuffle=True, random_state=42) # set the random seed so we get reproducible results!
     return train, test
@@ -74,32 +75,28 @@ def move_image_files(train,test):
         os.rename(old_img_file_path, new_img_file_path)
     return
 
-def main(args):
+def read_parameter_file():
+    
+    with open("params.yaml",'r') as params_file:
+        params = yaml.safe_load(params_file)
+        # Check the trainpct given is valid:
+        float_fraction(params['split_dataset']['trainpct'])
+        return params
 
-    if len(args.annotation_paths_file) < 1:
-        print("Generating list of xml annotation files from current directory")
-        file_list=[]
-        for xml_file in os.listdir(os.path.join(os.getcwd(),"xml_annotations")):
-            file_list.append(os.path.join(os.getcwd(),"xml_annotations",xml_file))
-        train_set, test_set = split_dataset(file_list, args.trainpct)                   
-    else:
-        print("Running split dataset for paths in file {}".format(args.annotation_paths_file))
-        train_set, test_set = split_dataset(args.annotation_paths_file, args.trainpct)
+def main():
+    params = read_parameter_file()
+    xml_annotations_dir = params['split_dataset']['annotations_dir']
+    print("Generating list of xml annotation files from {}".format(xml_annotations_dir))
+    
+    file_list=[]
+    for xml_file in os.listdir(os.path.join(os.getcwd(),xml_annotations_dir)):
+        file_list.append(os.path.join(os.getcwd(),xml_annotations_dir,xml_file))
+    train_set, test_set = split_dataset(file_list, params['split_dataset']['trainpct'])
+
 
     output_files(train_set, test_set)
     move_image_files(train_set, test_set)
     return
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Provide a dataset to split into test and eval')
-    parser.add_argument('-a',
-                        '--annotation_paths_file',
-                        type = str,
-                        default = '',
-                        help='Provide a file of annotation file paths to split into test and eval sets')
-    parser.add_argument('--trainpct',
-                        type = float_fraction,
-                        default = '0.75', # default 75% train, 25% eval
-                        help="Define the fraction of data to be used for training")
-    args = parser.parse_args()
-    main(args)
+    main()
