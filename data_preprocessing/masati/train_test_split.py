@@ -1,14 +1,14 @@
 import os
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import yaml
+
 
 def float_fraction(trainpct):
     """ Float bounded between 0.0 and 1.0 """
     try:
         f = float(trainpct)
-    except ValueError:    
+    except ValueError:
         raise Exception("Fraction must be a float")
     if f < 0.0 or f > 1.0:
         raise Exception("Argument should be a fraction! Must be <= 1.0 and >= 0.0")
@@ -19,10 +19,10 @@ def split_dataset(dataset_file, trainpct):
     """
     Split a file containing the full path to individual annotation files into
     train and test datasets, with a split defined by trainpct.
-    
+
 
     Inputs:
-    - dataset_file - a .txt or .csv file containing file paths pointing to annotation files. 
+    - dataset_file - a .txt or .csv file containing file paths pointing to annotation files.
       (Expects that these have no header)
     - trainpct = 0.8 produces an 80:20 train:test split
     """
@@ -30,11 +30,17 @@ def split_dataset(dataset_file, trainpct):
         full_dataset = pd.DataFrame(dataset_file, columns=["Filename"])
     else:
         full_dataset = pd.read_csv(dataset_file, names=["Filename"])
-    print("You've chosen a training percentage of: {} (this variable has type: {})".format(trainpct, type(trainpct)))
-    testsize = 1.-trainpct
-    train, test = train_test_split(full_dataset, test_size = testsize, shuffle=True, random_state=42) # set the random seed so we get reproducible results!
+    print(
+        "You've chosen a training percentage of: {} (this variable has type: {})".format(
+            trainpct, type(trainpct)
+        )
+    )
+    testsize = 1.0 - trainpct
+    train, test = train_test_split(
+        full_dataset, test_size=testsize, shuffle=True, random_state=42
+    )  # set the random seed so we get reproducible results!
     return train, test
-    
+
 
 def output_files(train, test):
     train_out_name = os.path.join(os.getcwd(), "xml_annotations_train.txt")
@@ -45,12 +51,13 @@ def output_files(train, test):
     print("Written test annotation set to: {}".format(test_out_name))
     return
 
-def move_image_files(train,test):
+
+def move_image_files(train, test):
     train_dir_name = "train"
     test_dir_name = "validation"
     img_dir_name = "PNGImages"
     annotations_dir_name = "xml_annotations"
-    
+
     train_img_dir = os.path.join(os.getcwd(), train_dir_name)
     test_img_dir = os.path.join(os.getcwd(), test_dir_name)
     if not os.path.exists(train_img_dir):
@@ -58,8 +65,8 @@ def move_image_files(train,test):
     if not os.path.exists(test_img_dir):
         os.mkdir(test_img_dir)
 
-    train_img_paths = train['Filename'].tolist()
-    test_img_paths = test['Filename'].tolist()
+    train_img_paths = train["Filename"].tolist()
+    test_img_paths = test["Filename"].tolist()
 
     for img_file in train_img_paths:
         print(img_file)
@@ -75,28 +82,30 @@ def move_image_files(train,test):
         os.rename(old_img_file_path, new_img_file_path)
     return
 
+
 def read_parameter_file():
-    
-    with open("params.yaml",'r') as params_file:
+
+    with open("params.yaml", "r") as params_file:
         params = yaml.safe_load(params_file)
         # Check the trainpct given is valid:
-        float_fraction(params['split_dataset']['trainpct'])
+        float_fraction(params["split_dataset"]["trainpct"])
         return params
+
 
 def main():
     params = read_parameter_file()
-    xml_annotations_dir = params['split_dataset']['annotations_dir']
+    xml_annotations_dir = params["split_dataset"]["annotations_dir"]
     print("Generating list of xml annotation files from {}".format(xml_annotations_dir))
-    
-    file_list=[]
-    for xml_file in os.listdir(os.path.join(os.getcwd(),xml_annotations_dir)):
-        file_list.append(os.path.join(os.getcwd(),xml_annotations_dir,xml_file))
-    train_set, test_set = split_dataset(file_list, params['split_dataset']['trainpct'])
 
+    file_list = []
+    for xml_file in os.listdir(os.path.join(os.getcwd(), xml_annotations_dir)):
+        file_list.append(os.path.join(os.getcwd(), xml_annotations_dir, xml_file))
+    train_set, test_set = split_dataset(file_list, params["split_dataset"]["trainpct"])
 
     output_files(train_set, test_set)
     move_image_files(train_set, test_set)
     return
+
 
 if __name__ == "__main__":
     main()

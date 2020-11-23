@@ -1,0 +1,6 @@
+gdown==3.12.2
+dvc==1.10.1
+numpy==1.19.4
+pandas==1.1.4
+scikit-learn==0.23.2
+tqdm==4.52.0
