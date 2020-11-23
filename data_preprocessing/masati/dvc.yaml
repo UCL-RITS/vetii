@@ -1,0 +1,17 @@
+stages:
+  prepare_images:
+    cmd: python refine_masati.py
+    deps:
+    - MASATI-v2/
+    - refine_masati.py
+    outs:
+    - PNGImages
+    - xml_annotations
+  get_yolo_labels:
+    cmd: python convert_xml_to_yolotxt.py
+    deps:
+    - PNGImages/
+    - xml_annotations/
+    - convert_xml_to_yolotxt.py
+    outs:
+    - yolo_annotations
