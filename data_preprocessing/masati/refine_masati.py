@@ -76,8 +76,6 @@ def create_directory_structure(masati_directories, debug=False):
 def main():
     masati_directories = ["xml_annotations", "PNGImages"]
     create_directory_structure(masati_directories)
-        
-        
+
 if __name__ == "__main__":
     main()
-
