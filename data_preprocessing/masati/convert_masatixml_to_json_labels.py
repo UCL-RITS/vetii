@@ -156,13 +156,13 @@ def prepare_for_conversion(labels, class_index, is_masati, output_dir, output_fi
     Returns: NoneType
     """
 
-    output_json = {
-        "images": [],
-        "type": "instances",
-        "annotations": [],
-        "categories": [],
-    }
     for label_type, label_contents in labels.items():
+        output_json = {
+            "images": [],
+            "type": "instances",
+            "annotations": [],
+            "categories": [],
+        }
         convert_xml(
             label_type,
             label_contents,
