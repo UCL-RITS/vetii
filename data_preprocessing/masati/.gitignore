@@ -3,3 +3,8 @@
 /yolo_annotations
 /train
 /validation
+/modified_xml_annotations
+/test_yolo_file_structure
+*.tar.gz
+/MASATI-v2
+/temp*

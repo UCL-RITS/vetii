@@ -7,11 +7,18 @@ stages:
     outs:
     - PNGImages
     - xml_annotations
+  modified_annotations:
+    cmd: python remove_extra_classes.py
+    deps:
+    - remove_extra_classes.py
+    - xml_annotations
+    outs:
+    - modified_xml_annotations
   get_yolo_labels:
     cmd: python convert_xml_to_yolotxt.py
     deps:
     - PNGImages/
-    - xml_annotations/
+    - modified_xml_annotations/
     - convert_xml_to_yolotxt.py
     outs:
     - yolo_annotations
@@ -20,7 +27,7 @@ stages:
     deps:
     - PNGImages/
     - train_test_split.py
-    - xml_annotations/
+    - modified_xml_annotations/
     params:
     - split_dataset.annotations_dir
     - split_dataset.trainpct
@@ -29,6 +36,18 @@ stages:
     - validation/
     - xml_annotations_test.txt
     - xml_annotations_train.txt
+  get_yolo_train_test_split:
+    cmd: python sort_yolo_images.py
+    deps:
+    - sort_yolo_images.py
+    - yolo_annotations
+    - train/
+    - validation/
+    outs:
+    - yolo_images_train/
+    - yolo_images_validation/
+    - yolo_labels_train/
+    - yolo_labels_validation/
   get_json_labels:
     cmd: python convert_masatixml_to_json_labels.py
     deps:

@@ -59,7 +59,7 @@ def convert_xml_annotation_to_yolo(label_path, output_path, is_masati, classes):
 
 def main():
 
-    labels_dir = os.path.join(os.getcwd(), "xml_annotations")
+    labels_dir = os.path.join(os.getcwd(), "modified_xml_annotations")
     classes = ["boat"]
 
     output_path = os.path.join(os.getcwd(), "yolo_annotations")

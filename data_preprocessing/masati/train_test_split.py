@@ -52,11 +52,10 @@ def output_files(train, test):
     return
 
 
-def move_image_files(train, test):
+def move_image_files(train, test, annotations_dir_name):
     train_dir_name = "train"
     test_dir_name = "validation"
     img_dir_name = "PNGImages"
-    annotations_dir_name = "xml_annotations"
 
     train_img_dir = os.path.join(os.getcwd(), train_dir_name)
     test_img_dir = os.path.join(os.getcwd(), test_dir_name)
@@ -103,7 +102,7 @@ def main():
     train_set, test_set = split_dataset(file_list, params["split_dataset"]["trainpct"])
 
     output_files(train_set, test_set)
-    move_image_files(train_set, test_set)
+    move_image_files(train_set, test_set, xml_annotations_dir)
     return
 
 
