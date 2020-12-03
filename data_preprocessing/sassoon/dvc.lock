@@ -1,0 +1,19 @@
+get_yolo_annotations:
+  cmd: python convert_xml_to_yolotxt.py
+  deps:
+  - path: convert_xml_to_yolotxt.py
+    md5: 6268bc203ee822d6751b01a20940fb84
+    size: 2149
+  - path: images/
+    md5: e1234d628edc56abba86a4bfe3466a38.dir
+    size: 51206887
+    nfiles: 100
+  - path: xml_annotations
+    md5: 33b973cba38ca5aefec1e5dc425946c2.dir
+    size: 104733
+    nfiles: 9
+  outs:
+  - path: yolo_annotations
+    md5: baf894a34af3fcd1964f47a967a14782.dir
+    size: 36014
+    nfiles: 9

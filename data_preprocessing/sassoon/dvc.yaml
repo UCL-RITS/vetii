@@ -1,0 +1,9 @@
+stages:
+  get_yolo_annotations:
+    cmd: python convert_xml_to_yolotxt.py
+    deps:
+    - convert_xml_to_yolotxt.py
+    - images/
+    - xml_annotations
+    outs:
+    - yolo_annotations
