@@ -8,3 +8,7 @@
 *.tar.gz
 /MASATI-v2
 /temp*
+/yolo_images_train
+/yolo_images_validation
+/yolo_labels_train
+/yolo_labels_validation

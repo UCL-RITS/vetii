@@ -7,13 +7,6 @@ stages:
     outs:
     - PNGImages
     - xml_annotations
-  modified_annotations:
-    cmd: python remove_extra_classes.py
-    deps:
-    - remove_extra_classes.py
-    - xml_annotations
-    outs:
-    - modified_xml_annotations
   get_yolo_labels:
     cmd: python convert_xml_to_yolotxt.py
     deps:
@@ -36,18 +29,6 @@ stages:
     - validation/
     - xml_annotations_test.txt
     - xml_annotations_train.txt
-  get_yolo_train_test_split:
-    cmd: python sort_yolo_images.py
-    deps:
-    - sort_yolo_images.py
-    - yolo_annotations
-    - train/
-    - validation/
-    outs:
-    - yolo_images_train/
-    - yolo_images_validation/
-    - yolo_labels_train/
-    - yolo_labels_validation/
   get_json_labels:
     cmd: python convert_masatixml_to_json_labels.py
     deps:
@@ -64,3 +45,22 @@ stages:
     outs:
     - coco_json_annotations/annotations_test.json
     - coco_json_annotations/annotations_train.json
+  modify_annotations:
+    cmd: python remove_extra_classes.py
+    deps:
+    - remove_extra_classes.py
+    - xml_annotations/
+    outs:
+    - modified_xml_annotations/
+  sort_yolo_file_structure:
+    cmd: python sort_yolo_images.py
+    deps:
+    - sort_yolo_images.py
+    - train/
+    - validation/
+    - yolo_annotations/
+    outs:
+    - yolo_images_train/
+    - yolo_images_validation/
+    - yolo_labels_train/
+    - yolo_labels_validation/
