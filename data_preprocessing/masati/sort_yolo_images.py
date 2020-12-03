@@ -12,14 +12,16 @@ def create_yolo_dirs(imgdir, labeldir):
     output_labels_dir = os.path.join(os.getcwd(), "yolo_labels_"+imgdir)
     output_images_dir = output_labels_dir.replace("labels","images")
     
+    if os.path.exists(output_images_dir) and os.path.exists(output_labels_dir):
+        return output_images_dir, output_labels_dir
+    
     if not os.path.exists(output_labels_dir):
         os.mkdir(output_labels_dir)
 
     if not os.path.exists(output_images_dir):
         os.mkdir(output_images_dir)
 
-    if os.path.exists(output_images_dir) and os.path.exists(output_labels_dir):
-        return output_images_dir, output_labels_dir
+
        
         
     label_list = os.listdir(labeldir)
@@ -42,8 +44,6 @@ def rename_yolo_files(label_dir):
         images_dir = old_image_path.rsplit("/",1)[0] 
         new_image_name = os.path.join(images_dir,new_label_name+".png") 
         counter +=1 
-     
-        print(old_label_path, new_label_path, old_image_path,new_image_name) 
         os.replace(old_label_path,new_label_path) 
         os.replace(old_image_path, new_image_name) 
 
