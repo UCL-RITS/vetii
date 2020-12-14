@@ -1,7 +1,7 @@
 <annotation verified="yes">
-	<folder>sassoon_dock</folder>
+	<folder>version2_labels</folder>
 	<filename>2000_12_11.jpg</filename>
-	<path>/Users/hmoss/vetii-RITS/data_preprocessing/sassoon/sassoon_dock/2000_12_11.jpg</path>
+	<path>/Users/hmoss/vetii-RITS/data_preprocessing/sassoon/version2_labels/2000_12_11.jpg</path>
 	<source>
 		<database>Unknown</database>
 	</source>
@@ -417,6 +417,54 @@
 			<ymin>391</ymin>
 			<xmax>705</xmax>
 			<ymax>419</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>boat</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>639</xmin>
+			<ymin>257</ymin>
+			<xmax>676</xmax>
+			<ymax>307</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>boat</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>949</xmin>
+			<ymin>627</ymin>
+			<xmax>977</xmax>
+			<ymax>686</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>boat</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>775</xmin>
+			<ymin>697</ymin>
+			<xmax>823</xmax>
+			<ymax>727</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>boat</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>605</xmin>
+			<ymin>582</ymin>
+			<xmax>641</xmax>
+			<ymax>623</ymax>
 		</bndbox>
 	</object>
 </annotation>

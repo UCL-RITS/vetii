@@ -1,0 +1,14 @@
+split_dataset:
+  annotations_dir: xml_annotations
+  trainpct: 0.75
+  train_dir: train
+  valid_dir: validation
+  img_dir: images
+  file_type: jpg 
+get_json_labels:
+  train_labels: xml_annotations_train.txt
+  test_labels: xml_annotations_test.txt
+  is_masati: True
+  classes: ["boat"]
+  output_json_train: annotations_train.json
+  output_json_test: annotations_test.json
