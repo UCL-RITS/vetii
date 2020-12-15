@@ -1,4 +1,5 @@
 import os
+import shutil
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import yaml
@@ -72,13 +73,13 @@ def move_image_files(train, test, annotations_dir_name):
         old_img_file_path = img_file.replace(annotations_dir_name, img_dir_name)
         old_img_file_path = old_img_file_path.replace("xml", "png")
         new_img_file_path = old_img_file_path.replace(img_dir_name, train_dir_name)
-        os.rename(old_img_file_path, new_img_file_path)
+        shutil.copy(old_img_file_path, new_img_file_path)
 
     for img_file in test_img_paths:
         old_img_file_path = img_file.replace(annotations_dir_name, img_dir_name)
         old_img_file_path = old_img_file_path.replace("xml", "png")
         new_img_file_path = old_img_file_path.replace(img_dir_name, test_dir_name)
-        os.rename(old_img_file_path, new_img_file_path)
+        shutil.copy(old_img_file_path, new_img_file_path)
     return
 
 
