@@ -3,7 +3,7 @@ split_dataset:
   trainpct: 0.75
   train_dir: train
   valid_dir: validation
-  img_dir: images
+  img_dir: PNGImages
   file_type: png
 get_json_labels:
   train_labels: xml_annotations_train.txt

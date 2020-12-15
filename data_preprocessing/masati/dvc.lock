@@ -48,8 +48,8 @@ split_dataset:
     size: 1684474
     nfiles: 2368
   - path: train_test_split.py
-    md5: 1dcce327900f5cfc2e0a8911e401cf4a
-    size: 3936
+    md5: f151beb8e7466d0f66cd454ee776f0ca
+    size: 4097
   params:
     params.yaml:
       split_dataset.annotations_dir: modified_xml_annotations
@@ -64,11 +64,11 @@ split_dataset:
     size: 200427302
     nfiles: 592
   - path: xml_annotations_test.txt
-    md5: 6362b153e467cc2d19b43b0c6ff400b6
-    size: 52688
+    md5: bb0c97ba7d1dc1d9a41f91f3b4a29fc6
+    size: 49728
   - path: xml_annotations_train.txt
-    md5: f8b5265595f7fb48d9bd30c233b6243c
-    size: 158064
+    md5: 12eea3094172e490a3ce03e08ae00dca
+    size: 149184
 get_json_labels:
   cmd: python convert_masatixml_to_json_labels.py
   deps:
@@ -76,11 +76,11 @@ get_json_labels:
     md5: 3c621ccf70e4406e773c041957a29219
     size: 8046
   - path: xml_annotations_test.txt
-    md5: 6362b153e467cc2d19b43b0c6ff400b6
-    size: 52688
+    md5: bb0c97ba7d1dc1d9a41f91f3b4a29fc6
+    size: 49728
   - path: xml_annotations_train.txt
-    md5: f8b5265595f7fb48d9bd30c233b6243c
-    size: 158064
+    md5: 12eea3094172e490a3ce03e08ae00dca
+    size: 149184
   params:
     params.yaml:
       get_json_labels.classes:
