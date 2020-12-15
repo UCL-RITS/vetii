@@ -8,3 +8,9 @@ get_json_labels:
   classes: ["boat"]
   output_json_train: annotations_train.json
   output_json_test: annotations_test.json
+create_yolov5_filestructure:
+  dataset: masati
+  train_labels: yolo_labels_train
+  val_labels: yolo_labels_validation
+  train_imgs: yolo_images_train
+  val_imgs: yolo_images_validation

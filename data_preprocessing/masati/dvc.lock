@@ -40,16 +40,16 @@ split_dataset:
   cmd: python train_test_split.py
   deps:
   - path: PNGImages/
-    md5: d751713988987e9331980363e24189ce.dir
-    size: 0
-    nfiles: 0
+    md5: 910d4c06768d26bb051869e8e4fd81e4.dir
+    size: 782464766
+    nfiles: 2368
   - path: modified_xml_annotations/
     md5: df0b6d762b6600e48ba2db98f72a1077.dir
     size: 1684474
     nfiles: 2368
   - path: train_test_split.py
-    md5: 09dcca353f85d750db2de47e2fa24455
-    size: 3918
+    md5: 1dcce327900f5cfc2e0a8911e401cf4a
+    size: 3936
   params:
     params.yaml:
       split_dataset.annotations_dir: modified_xml_annotations
@@ -64,11 +64,11 @@ split_dataset:
     size: 200427302
     nfiles: 592
   - path: xml_annotations_test.txt
-    md5: bb0c97ba7d1dc1d9a41f91f3b4a29fc6
-    size: 49728
+    md5: 6362b153e467cc2d19b43b0c6ff400b6
+    size: 52688
   - path: xml_annotations_train.txt
-    md5: 12eea3094172e490a3ce03e08ae00dca
-    size: 149184
+    md5: f8b5265595f7fb48d9bd30c233b6243c
+    size: 158064
 get_json_labels:
   cmd: python convert_masatixml_to_json_labels.py
   deps:
@@ -76,11 +76,11 @@ get_json_labels:
     md5: 3c621ccf70e4406e773c041957a29219
     size: 8046
   - path: xml_annotations_test.txt
-    md5: bb0c97ba7d1dc1d9a41f91f3b4a29fc6
-    size: 49728
+    md5: 6362b153e467cc2d19b43b0c6ff400b6
+    size: 52688
   - path: xml_annotations_train.txt
-    md5: 12eea3094172e490a3ce03e08ae00dca
-    size: 149184
+    md5: f8b5265595f7fb48d9bd30c233b6243c
+    size: 158064
   params:
     params.yaml:
       get_json_labels.classes:
@@ -151,8 +151,8 @@ modify_annotations:
   cmd: python remove_extra_classes.py
   deps:
   - path: remove_extra_classes.py
-    md5: cb670759913ba50800fbfc24fb24fa1c
-    size: 1117
+    md5: 75a04c79ee3b514c752833398a350ce9
+    size: 1084
   - path: xml_annotations/
     md5: a790e444d25e6235a30dad22ac30f2ea.dir
     size: 1692433
@@ -166,8 +166,8 @@ sort_yolo_file_structure:
   cmd: python sort_yolo_images.py
   deps:
   - path: sort_yolo_images.py
-    md5: bf953d5abc43754cd463b2552a58c7a6
-    size: 2198
+    md5: 7157434b30ccbd2a96d246a663934891
+    size: 2187
   - path: train/
     md5: 9eb747db5d547d4e564294ea3b28f7ce.dir
     size: 582037464
@@ -197,3 +197,21 @@ sort_yolo_file_structure:
     md5: 5f036208864b52f04f63ad0bfa186220.dir
     size: 53381
     nfiles: 592
+prepare_yolov5_data_structure:
+  cmd: python prepare_yolov5.py
+  deps:
+  - path: prepare_yolov5.py
+    md5: 3582c7a2bf42c9dad56486126caa6410
+    size: 3331
+  params:
+    params.yaml:
+      create_yolov5_filestructure.dataset: masati
+      create_yolov5_filestructure.train_imgs: yolo_images_train
+      create_yolov5_filestructure.train_labels: yolo_labels_train
+      create_yolov5_filestructure.val_imgs: yolo_images_validation
+      create_yolov5_filestructure.val_labels: yolo_labels_validation
+  outs:
+  - path: ../../data/masati/
+    md5: 24b0c81a170781011e35058f856ad032.dir
+    size: 782659503
+    nfiles: 4736
