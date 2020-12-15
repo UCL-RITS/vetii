@@ -1,0 +1,16 @@
+# MASATI-v2 dataset
+# Train command: python train.py --data masati.yaml
+# Default dataset location is next to /yolov3:
+#   /parent_folder
+#     /masati
+#     /yolov3
+
+# train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
+train: ../masati/images/train/  # 1776 images
+val: ../masati/images/val/  # 592 images (75:25 split)
+
+# number of classes
+nc: 1
+
+# class names
+names: ['boat']
