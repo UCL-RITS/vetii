@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 import yaml
 import shutil
 
+
 def float_fraction(trainpct):
     """ Float bounded between 0.0 and 1.0 """
     try:
