@@ -1,13 +1,14 @@
-# MASATI-v2 dataset
+# Sassoon Dock dataset
 # Train command: python train.py --data masati.yaml
-# Default dataset location is next to /yolov3:
+# Default dataset location 'data' is next to /yolov5:
 #   /parent_folder
+    /data
 #     /sassoon
-#     /yolov3
+#   /yolov3
 
 # train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]
-train: ../sassoon/images/train/ # 
-val: ../sassoon/images/val/ # 
+train: ../data/sassoon/images/train/ # 
+val: ../data/sassoon/images/val/ # 
 
 # number of classes
 nc: 1
