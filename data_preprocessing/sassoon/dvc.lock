@@ -9,11 +9,79 @@ get_yolo_annotations:
     size: 51206887
     nfiles: 100
   - path: xml_annotations
-    md5: 33b973cba38ca5aefec1e5dc425946c2.dir
-    size: 104733
-    nfiles: 9
+    md5: 0f9d8d0578d277921a1fd8f60a7d52eb.dir
+    size: 1042389
+    nfiles: 66
   outs:
   - path: yolo_annotations
-    md5: baf894a34af3fcd1964f47a967a14782.dir
-    size: 36014
-    nfiles: 9
+    md5: d07d844b94c33bc770c7565b6346ed66.dir
+    size: 362706
+    nfiles: 66
+split_dataset:
+  cmd: python train_test_split.py
+  deps:
+  - path: images/
+    md5: e1234d628edc56abba86a4bfe3466a38.dir
+    size: 51206887
+    nfiles: 100
+  - path: train_test_split.py
+    md5: dc5a02f030a4024df980f6d1da11f0ae
+    size: 4096
+  - path: xml_annotations
+    md5: 0f9d8d0578d277921a1fd8f60a7d52eb.dir
+    size: 1042389
+    nfiles: 66
+  params:
+    params.yaml:
+      split_dataset.annotations_dir: xml_annotations
+      split_dataset.trainpct: 0.75
+  outs:
+  - path: train/
+    md5: ef06c177bea30a33bd519245460c3259.dir
+    size: 25911478
+    nfiles: 49
+  - path: validation/
+    md5: 69b7b6d14f64eb8c3fb90576f98d4300.dir
+    size: 8678539
+    nfiles: 17
+  - path: xml_annotations_test.txt
+    md5: 3b1f0410f73b008e72f38228b5e922b8
+    size: 1394
+  - path: xml_annotations_train.txt
+    md5: 934bd2ec2a82a5b0e0c325dadcb69f2d
+    size: 4018
+sort_yolo_file_structure:
+  cmd: python sort_yolo_images.py
+  deps:
+  - path: sort_yolo_images.py
+    md5: ecb98a59931e33c6bdce9112a1bb4c50
+    size: 2114
+  - path: train/
+    md5: ef06c177bea30a33bd519245460c3259.dir
+    size: 25911478
+    nfiles: 49
+  - path: validation/
+    md5: 69b7b6d14f64eb8c3fb90576f98d4300.dir
+    size: 8678539
+    nfiles: 17
+  - path: yolo_annotations/
+    md5: d07d844b94c33bc770c7565b6346ed66.dir
+    size: 362706
+    nfiles: 66
+  outs:
+  - path: yolo_images_train/
+    md5: 3c2fe943870eb16d28dc122da9c56e8e.dir
+    size: 25911478
+    nfiles: 49
+  - path: yolo_images_validation/
+    md5: 1f00cdf944c9320bea4c941a612ce4c4.dir
+    size: 8678539
+    nfiles: 17
+  - path: yolo_labels_train/
+    md5: af358edb98d89decc5a18a6942d90354.dir
+    size: 274025
+    nfiles: 49
+  - path: yolo_labels_validation/
+    md5: 2c3a8a4761ea1b29314257f94a99436e.dir
+    size: 88681
+    nfiles: 17

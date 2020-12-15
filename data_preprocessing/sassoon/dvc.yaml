@@ -7,3 +7,29 @@ stages:
     - xml_annotations
     outs:
     - yolo_annotations
+  split_dataset:
+    cmd: python train_test_split.py
+    deps:
+    - images/
+    - train_test_split.py
+    - xml_annotations
+    params:
+    - split_dataset.annotations_dir
+    - split_dataset.trainpct
+    outs:
+    - train/
+    - validation/
+    - xml_annotations_test.txt
+    - xml_annotations_train.txt
+  sort_yolo_file_structure:
+    cmd: python sort_yolo_images.py
+    deps:
+    - sort_yolo_images.py
+    - train/
+    - validation/
+    - yolo_annotations/
+    outs:
+    - yolo_images_train/
+    - yolo_images_validation/
+    - yolo_labels_train/
+    - yolo_labels_validation/
