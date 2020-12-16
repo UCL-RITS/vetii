@@ -1,2 +1,10 @@
 /yolo_annotations
 /images
+/train
+/validation
+/xml_annotations_test.txt
+/xml_annotations_train.txt
+/yolo_images_train
+/yolo_images_validation
+/yolo_labels_train
+/yolo_labels_validation
