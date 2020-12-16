@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import yaml
+import shutil
 
 
 def float_fraction(trainpct):
@@ -52,10 +53,11 @@ def output_files(train, test):
     return
 
 
-def move_image_files(train, test, annotations_dir_name):
-    train_dir_name = "train"
-    test_dir_name = "validation"
-    img_dir_name = "PNGImages"
+def move_image_files(train, test, annotations_dir_name, params):
+    train_dir_name = params["split_dataset"]["train_dir"]
+    test_dir_name = params["split_dataset"]["valid_dir"]
+    img_dir_name = params["split_dataset"]["img_dir"]
+    file_type = params["split_dataset"]["file_type"]
 
     train_img_dir = os.path.join(os.getcwd(), train_dir_name)
     test_img_dir = os.path.join(os.getcwd(), test_dir_name)
@@ -70,15 +72,15 @@ def move_image_files(train, test, annotations_dir_name):
     for img_file in train_img_paths:
         print(img_file)
         old_img_file_path = img_file.replace(annotations_dir_name, img_dir_name)
-        old_img_file_path = old_img_file_path.replace("xml", "png")
+        old_img_file_path = old_img_file_path.replace("xml", file_type)
         new_img_file_path = old_img_file_path.replace(img_dir_name, train_dir_name)
-        os.rename(old_img_file_path, new_img_file_path)
+        shutil.copyfile(old_img_file_path, new_img_file_path)
 
     for img_file in test_img_paths:
         old_img_file_path = img_file.replace(annotations_dir_name, img_dir_name)
-        old_img_file_path = old_img_file_path.replace("xml", "png")
+        old_img_file_path = old_img_file_path.replace("xml", file_type)
         new_img_file_path = old_img_file_path.replace(img_dir_name, test_dir_name)
-        os.rename(old_img_file_path, new_img_file_path)
+        shutil.copyfile(old_img_file_path, new_img_file_path)
     return
 
 
@@ -102,7 +104,7 @@ def main():
     train_set, test_set = split_dataset(file_list, params["split_dataset"]["trainpct"])
 
     output_files(train_set, test_set)
-    move_image_files(train_set, test_set, xml_annotations_dir)
+    move_image_files(train_set, test_set, xml_annotations_dir, params)
     return
 
 
