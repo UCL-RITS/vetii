@@ -3,7 +3,6 @@ import shutil
 from tqdm import tqdm as progress_bar
 from pathlib import Path
 
-from train_test_split import read_parameter_file
 """
 Sorts yolo image and label directories into the file structure YOLOv5 expects
 """
@@ -47,21 +46,23 @@ def create_yolo_dirs(train_label_dir,
     ]
 
 def main():
-    params = read_parameter_file()
+    from read_params import read_parameter_file
+    params = read_parameter_file("params.yaml")
+    workdir = os.getcwd()
     train_label_dir = os.path.join(
-        os.getcwd(),
+        workdir,
         params["create_yolov5_filestructure"]["train_labels"]
     )
     val_label_dir = os.path.join(
-        os.getcwd(),
+        workdir,
         params["create_yolov5_filestructure"]["val_labels"]
     )
     train_img_dir = os.path.join(
-        os.getcwd(),
+        workdir,
         params["create_yolov5_filestructure"]["train_imgs"]
     )
     val_img_dir = os.path.join(
-        os.getcwd(),
+        workdir,
         params["create_yolov5_filestructure"]["val_imgs"]
     )
     dataset = params["create_yolov5_filestructure"]["dataset"]
@@ -77,7 +78,7 @@ def main():
     
     assert os.path.isdir("../../data_preprocessing"), "Run this script from a subdirectory of data_preprocessing"
     
-    vetii_directory = str(Path(os.getcwd()).parent.parent)
+    vetii_directory = str(Path(workdir).parent.parent)
     data_directory = os.path.join(vetii_directory,"data")
 
     assert os.path.isdir(data_directory), "data/ directory does not exist at the top level of this project. Create this directory before running!"

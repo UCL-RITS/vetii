@@ -1,17 +1,20 @@
 stages:
   get_yolo_annotations:
-    cmd: python convert_xml_to_yolotxt.py
+    cmd: python ../scripts/convert_xml_to_yolotxt.py
+    params:
+    - get_yolo_labels.annotations_dir
+    - get_yolo_labels.is_masati
     deps:
-    - convert_xml_to_yolotxt.py
+    - ../scripts/convert_xml_to_yolotxt.py
     - images/
     - xml_annotations
     outs:
     - yolo_annotations
   split_dataset:
-    cmd: python train_test_split.py
+    cmd: python ../scripts/train_test_split.py
     deps:
     - images/
-    - train_test_split.py
+    - ../scripts/train_test_split.py
     - xml_annotations
     params:
     - split_dataset.annotations_dir
@@ -22,9 +25,11 @@ stages:
     - xml_annotations_test.txt
     - xml_annotations_train.txt
   sort_yolo_file_structure:
-    cmd: python sort_yolo_images.py
+    cmd: python ../scripts/sort_yolo_images.py
+    params:
+    - sort_yolo_images.imgformat
     deps:
-    - sort_yolo_images.py
+    - ../scripts/sort_yolo_images.py
     - train/
     - validation/
     - yolo_annotations/
@@ -34,9 +39,9 @@ stages:
     - yolo_labels_train/
     - yolo_labels_validation/
   prepare_yolov5_data_structure:
-    cmd: python prepare_yolov5.py
+    cmd: python ../scripts/prepare_yolov5.py
     deps:
-    - prepare_yolov5.py
+    - ../scripts/prepare_yolov5.py
     params:
     - create_yolov5_filestructure.dataset
     - create_yolov5_filestructure.train_imgs

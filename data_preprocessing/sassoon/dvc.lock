@@ -1,9 +1,9 @@
 get_yolo_annotations:
-  cmd: python convert_xml_to_yolotxt.py
+  cmd: python ../scripts/convert_xml_to_yolotxt.py
   deps:
-  - path: convert_xml_to_yolotxt.py
-    md5: 6268bc203ee822d6751b01a20940fb84
-    size: 2149
+  - path: ../scripts/convert_xml_to_yolotxt.py
+    md5: 72e3de61aedb3398e5f41eee094cbc8b
+    size: 2401
   - path: images/
     md5: e1234d628edc56abba86a4bfe3466a38.dir
     size: 51206887
@@ -12,21 +12,25 @@ get_yolo_annotations:
     md5: 0f9d8d0578d277921a1fd8f60a7d52eb.dir
     size: 1042389
     nfiles: 66
+  params:
+    params.yaml:
+      get_yolo_labels.annotations_dir: xml_annotations
+      get_yolo_labels.is_masati: false
   outs:
   - path: yolo_annotations
     md5: d07d844b94c33bc770c7565b6346ed66.dir
     size: 362706
     nfiles: 66
 split_dataset:
-  cmd: python train_test_split.py
+  cmd: python ../scripts/train_test_split.py
   deps:
+  - path: ../scripts/train_test_split.py
+    md5: 2865fe56c6760a030a7bf4b5ad585048
+    size: 3994
   - path: images/
     md5: e1234d628edc56abba86a4bfe3466a38.dir
     size: 51206887
     nfiles: 100
-  - path: train_test_split.py
-    md5: f151beb8e7466d0f66cd454ee776f0ca
-    size: 4097
   - path: xml_annotations
     md5: 0f9d8d0578d277921a1fd8f60a7d52eb.dir
     size: 1042389
@@ -51,11 +55,11 @@ split_dataset:
     md5: 934bd2ec2a82a5b0e0c325dadcb69f2d
     size: 4018
 sort_yolo_file_structure:
-  cmd: python sort_yolo_images.py
+  cmd: python ../scripts/sort_yolo_images.py
   deps:
-  - path: sort_yolo_images.py
-    md5: c80a68c672d8de40619e679e2ab9e4ed
-    size: 2187
+  - path: ../scripts/sort_yolo_images.py
+    md5: b575a451a4b220f584b883bb322bc313
+    size: 2456
   - path: train/
     md5: ef06c177bea30a33bd519245460c3259.dir
     size: 25911478
@@ -68,6 +72,9 @@ sort_yolo_file_structure:
     md5: d07d844b94c33bc770c7565b6346ed66.dir
     size: 362706
     nfiles: 66
+  params:
+    params.yaml:
+      sort_yolo_images.imgformat: jpg
   outs:
   - path: yolo_images_train/
     md5: 3c2fe943870eb16d28dc122da9c56e8e.dir
@@ -86,11 +93,11 @@ sort_yolo_file_structure:
     size: 88681
     nfiles: 17
 prepare_yolov5_data_structure:
-  cmd: python prepare_yolov5.py
+  cmd: python ../scripts/prepare_yolov5.py
   deps:
-  - path: prepare_yolov5.py
-    md5: 3582c7a2bf42c9dad56486126caa6410
-    size: 3331
+  - path: ../scripts/prepare_yolov5.py
+    md5: 2b8d241900483e2c0ae862950566bb00
+    size: 3345
   params:
     params.yaml:
       create_yolov5_filestructure.dataset: sassoon

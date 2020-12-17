@@ -18,3 +18,8 @@ create_yolov5_filestructure:
   val_labels: yolo_labels_validation
   train_imgs: yolo_images_train
   val_imgs: yolo_images_validation
+sort_yolo_images:
+  imgformat: jpg
+get_yolo_labels:
+  annotations_dir: xml_annotations
+  is_masati: False

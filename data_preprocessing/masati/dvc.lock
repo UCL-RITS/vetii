@@ -17,28 +17,50 @@ prepare_images:
     md5: a790e444d25e6235a30dad22ac30f2ea.dir
     size: 1692433
     nfiles: 2368
-get_yolo_labels:
-  cmd: python convert_xml_to_yolotxt.py
+modify_annotations:
+  cmd: python remove_extra_classes.py
   deps:
-  - path: PNGImages/
-    md5: 910d4c06768d26bb051869e8e4fd81e4.dir
-    size: 782464766
+  - path: remove_extra_classes.py
+    md5: 75a04c79ee3b514c752833398a350ce9
+    size: 1084
+  - path: xml_annotations/
+    md5: a790e444d25e6235a30dad22ac30f2ea.dir
+    size: 1692433
     nfiles: 2368
-  - path: convert_xml_to_yolotxt.py
-    md5: 83c52cba3349ba653f0e0d6cd6f3b7dc
-    size: 2131
+  outs:
   - path: modified_xml_annotations/
     md5: df0b6d762b6600e48ba2db98f72a1077.dir
     size: 1684474
     nfiles: 2368
+get_yolo_labels:
+  cmd: python ../scripts/convert_xml_to_yolotxt.py
+  deps:
+  - path: ../scripts/convert_xml_to_yolotxt.py
+    md5: 72e3de61aedb3398e5f41eee094cbc8b
+    size: 2401
+  - path: PNGImages/
+    md5: 910d4c06768d26bb051869e8e4fd81e4.dir
+    size: 782464766
+    nfiles: 2368
+  - path: modified_xml_annotations/
+    md5: df0b6d762b6600e48ba2db98f72a1077.dir
+    size: 1684474
+    nfiles: 2368
+  params:
+    params.yaml:
+      get_yolo_labels.annotations_dir: modified_xml_annotations
+      get_yolo_labels.is_masati: true
   outs:
   - path: yolo_annotations
     md5: a6c1285f03ab9913484ce4d7c74a0ee0.dir
     size: 194737
     nfiles: 2368
 split_dataset:
-  cmd: python train_test_split.py
+  cmd: python ../scripts/train_test_split.py
   deps:
+  - path: ../scripts/train_test_split.py
+    md5: 2865fe56c6760a030a7bf4b5ad585048
+    size: 3994
   - path: PNGImages/
     md5: 910d4c06768d26bb051869e8e4fd81e4.dir
     size: 782464766
@@ -47,9 +69,6 @@ split_dataset:
     md5: df0b6d762b6600e48ba2db98f72a1077.dir
     size: 1684474
     nfiles: 2368
-  - path: train_test_split.py
-    md5: f151beb8e7466d0f66cd454ee776f0ca
-    size: 4097
   params:
     params.yaml:
       split_dataset.annotations_dir: modified_xml_annotations
@@ -97,77 +116,12 @@ get_json_labels:
   - path: coco_json_annotations/annotations_train.json
     md5: dad0c19c95ea9a4e3db5935730d9dec2
     size: 519596
-modified_annotations:
-  cmd: python remove_extra_classes.py
-  deps:
-  - path: remove_extra_classes.py
-    md5: cb670759913ba50800fbfc24fb24fa1c
-    size: 1117
-  - path: xml_annotations
-    md5: a790e444d25e6235a30dad22ac30f2ea.dir
-    size: 1692433
-    nfiles: 2368
-  outs:
-  - path: modified_xml_annotations
-    md5: df0b6d762b6600e48ba2db98f72a1077.dir
-    size: 1684474
-    nfiles: 2368
-get_yolo_train_test_split:
-  cmd: python sort_yolo_images.py
-  deps:
-  - path: sort_yolo_images.py
-    md5: 21a9ec352e3ee47054e35668cdcff2c2
-    size: 2192
-  - path: train/
-    md5: 9eb747db5d547d4e564294ea3b28f7ce.dir
-    size: 582037464
-    nfiles: 1776
-  - path: validation/
-    md5: 4e461a23b3d262fa38284e0def67e372.dir
-    size: 200427302
-    nfiles: 592
-  - path: yolo_annotations
-    md5: a6c1285f03ab9913484ce4d7c74a0ee0.dir
-    size: 194737
-    nfiles: 2368
-  outs:
-  - path: yolo_images_train/
-    md5: d751713988987e9331980363e24189ce.dir
-    size: 0
-    nfiles: 0
-  - path: yolo_images_validation/
-    md5: d751713988987e9331980363e24189ce.dir
-    size: 0
-    nfiles: 0
-  - path: yolo_labels_train/
-    md5: d751713988987e9331980363e24189ce.dir
-    size: 0
-    nfiles: 0
-  - path: yolo_labels_validation/
-    md5: d751713988987e9331980363e24189ce.dir
-    size: 0
-    nfiles: 0
-modify_annotations:
-  cmd: python remove_extra_classes.py
-  deps:
-  - path: remove_extra_classes.py
-    md5: 75a04c79ee3b514c752833398a350ce9
-    size: 1084
-  - path: xml_annotations/
-    md5: a790e444d25e6235a30dad22ac30f2ea.dir
-    size: 1692433
-    nfiles: 2368
-  outs:
-  - path: modified_xml_annotations/
-    md5: df0b6d762b6600e48ba2db98f72a1077.dir
-    size: 1684474
-    nfiles: 2368
 sort_yolo_file_structure:
-  cmd: python sort_yolo_images.py
+  cmd: python ../scripts/sort_yolo_images.py
   deps:
-  - path: sort_yolo_images.py
-    md5: 7157434b30ccbd2a96d246a663934891
-    size: 2187
+  - path: ../scripts/sort_yolo_images.py
+    md5: b575a451a4b220f584b883bb322bc313
+    size: 2456
   - path: train/
     md5: 9eb747db5d547d4e564294ea3b28f7ce.dir
     size: 582037464
@@ -180,13 +134,16 @@ sort_yolo_file_structure:
     md5: a6c1285f03ab9913484ce4d7c74a0ee0.dir
     size: 194737
     nfiles: 2368
+  params:
+    params.yaml:
+      sort_yolo_images.imgformat: png
   outs:
   - path: yolo_images_train/
-    md5: d25bfba8e40576a32daf62a277687702.dir
+    md5: 2faa3d9df563b878ae8116b25fd83127.dir
     size: 582037464
     nfiles: 1776
   - path: yolo_images_validation/
-    md5: 5f2feb0828d041776f3aa4e978fa453d.dir
+    md5: d2a4423a080836da33ffe24df74a7e57.dir
     size: 200427302
     nfiles: 592
   - path: yolo_labels_train/
@@ -198,11 +155,11 @@ sort_yolo_file_structure:
     size: 53381
     nfiles: 592
 prepare_yolov5_data_structure:
-  cmd: python prepare_yolov5.py
+  cmd: python ../scripts/prepare_yolov5.py
   deps:
-  - path: prepare_yolov5.py
-    md5: 3582c7a2bf42c9dad56486126caa6410
-    size: 3331
+  - path: ../scripts/prepare_yolov5.py
+    md5: 2b8d241900483e2c0ae862950566bb00
+    size: 3345
   params:
     params.yaml:
       create_yolov5_filestructure.dataset: masati
@@ -212,6 +169,6 @@ prepare_yolov5_data_structure:
       create_yolov5_filestructure.val_labels: yolo_labels_validation
   outs:
   - path: ../../data/masati/
-    md5: 24b0c81a170781011e35058f856ad032.dir
+    md5: 4b85e1d22552875726b20ceffc9bd114.dir
     size: 782659503
     nfiles: 4736
