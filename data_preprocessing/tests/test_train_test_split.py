@@ -38,7 +38,8 @@ def test_output_files(setup_out_dir):
     test_list = pd.DataFrame()
     funcs.output_files(outdir, train_list, test_list)
     assert len(os.listdir(outdir)) == 2
-    assert ['xml_annotations_train.txt', 'xml_annotations_test.txt'] == os.listdir(outdir)
+    assert 'xml_annotations_train.txt' in os.listdir(outdir)
+    assert 'xml_annotations_test.txt' in os.listdir(outdir)
 
 @pytest.mark.usefixtures("setup_move_img_files")
 def test_move_image_files(setup_move_img_files):
