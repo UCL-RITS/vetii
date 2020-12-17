@@ -22,7 +22,7 @@ def create_yolo_dirs(workdir, imgdir, labeldir):
     if not os.path.exists(output_images_dir):
         os.mkdir(output_images_dir)
 
-    label_list = os.listdir(os.path.join(workdir,labeldir))
+    label_list = os.listdir(os.path.join(workdir, labeldir))
     for imgfile in progress_bar(os.listdir(os.path.join(workdir, imgdir))):
         basefile = imgfile.split(".", 1)[0]
         if basefile + ".txt" in label_list:
@@ -44,7 +44,7 @@ def rename_yolo_files(workdir, label_dir, imgformat):
 
         old_label_path = os.path.join(labels_path, thisfile)
         old_image_path = old_label_path.replace("labels", "images").replace(
-            ".txt", "."+imgformat
+            ".txt", "." + imgformat
         )
         new_label_name = str(counter).zfill(5)
         new_label_path = os.path.join(labels_path, new_label_name + ".txt")
@@ -57,6 +57,7 @@ def rename_yolo_files(workdir, label_dir, imgformat):
 
 def main():
     from read_params import read_parameter_file
+
     yolo_annotations_dir = "yolo_annotations"
     workdir = os.getcwd()
     params = read_parameter_file("params.yaml")

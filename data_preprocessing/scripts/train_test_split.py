@@ -86,6 +86,7 @@ def move_image_files(workdir, train, test, annotations_dir_name, params):
 
 def main():
     from read_params import read_parameter_file
+
     params = read_parameter_file("params.yaml")
     float_fraction(params["split_dataset"]["trainpct"])
     xml_annotations_dir = params["split_dataset"]["annotations_dir"]

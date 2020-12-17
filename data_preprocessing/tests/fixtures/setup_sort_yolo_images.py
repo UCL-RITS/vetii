@@ -1,6 +1,7 @@
 import pytest
 from pathlib import Path
 
+
 @pytest.fixture(scope="session")
 def setup_yolo_dirs(tmpdir_factory):
 
@@ -10,7 +11,6 @@ def setup_yolo_dirs(tmpdir_factory):
     test_label_two = test_label_dir.join("test_2.txt")
     test_label_two.write("test_label_2")
 
-    
     test_img_dir = tmpdir_factory.mktemp("train")
     test_img_one = test_img_dir.join("test_1.png")
     test_img_one.write("test_img_1")
@@ -22,8 +22,8 @@ def setup_yolo_dirs(tmpdir_factory):
     assert test_img_one.read() == "test_img_1"
     assert test_img_two.read() == "test_img_2"
 
-    
     return test_label_dir, test_img_dir
+
 
 @pytest.fixture(scope="session")
 def setup_yolo_rename_dirs(tmpdir_factory):
@@ -40,4 +40,3 @@ def setup_yolo_rename_dirs(tmpdir_factory):
     assert test_img_one.read() == "test_img_1"
 
     return test_old_label_dir, test_old_img_dir
-

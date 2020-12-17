@@ -58,15 +58,20 @@ def convert_xml_annotation_to_yolo(label_path, output_path, is_masati, classes):
 
     in_file.close()
     out_file.close()
+
+
 def main():
     from read_params import read_parameter_file
+
     params = read_parameter_file("params.yaml")
-    labels_dir = os.path.join(os.getcwd(), str(params["get_yolo_labels"]["annotations_dir"]))
+    labels_dir = os.path.join(
+        os.getcwd(), str(params["get_yolo_labels"]["annotations_dir"])
+    )
     classes = ["boat"]
 
     output_path = os.path.join(os.getcwd(), "yolo_annotations")
     print("Will output to: {}".format(output_path))
-    
+
     is_masati = params["get_yolo_labels"]["is_masati"]
     if not os.path.exists(output_path):
         os.makedirs(output_path)
