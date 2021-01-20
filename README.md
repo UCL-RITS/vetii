@@ -216,7 +216,7 @@ This step requires the use of either the model weights provided the VETII sharep
 
 To detect boats within images (of `jpg` or `png` format), place them within the `$VETII/yolov5/data/images` directory. For example, to detect boats in images of the Sassoon Dock, use the following command for images in the `$VETTI/yolov5/data/images/sassoon/` directory 
 ```bash
-$ python detect.py --weights weights/sassoon_wandb_best_150epoch_trained_on_masati100epoch_yolov5x.pt --img 1175 --conf 0.25 --source data/images/sassoon --iou-thres 0.5 --save-txt
+$ python detect.py --weights weights/sassoon_wandb_best_150epoch_trained_on_masati100epoch_yolov5x.pt --img 1175 --conf 0.25 --source data/images/sassoon --iou-thres 0.5 --save-txt --save-conf
 ```
 Arguments used:
 * `img`: the image width in pixels
@@ -224,6 +224,7 @@ Arguments used:
 * `source`: location of an image file or image directory
 * `iou-thres`: [Intersection over union (IoU)](https://en.wikipedia.org/wiki/Jaccard_index) (or Jaccard index) threshold applied during detection - this is the minimum IoU score
 * `save-txt`: If present, saves the coordinates of the centre coordinate, width and height of the bounding boxes around detected boats. **For VETII this should always be included!**
+* `save-conf`: Saves confidence scores in the final column of the text output **Include this for VETII!**
 
 Outputs can be found in the `runs/detect` directory. An example output directory for a single image detection should look something like
 ```bash
@@ -232,6 +233,15 @@ Outputs can be found in the `runs/detect` directory. An example output directory
 └── labels
     └── 00001.txt
 ```
+
+The output text file format for a single input image will look like
+
+```bash
+Object_ID   Class   x   y   width   height  confidence   
+
+```
+
+For the pre-trained MASATI+Sassoon model, `Class` will always equal zero as the model was trained on a single class of object, `boat`. The `Object_ID` is unique to each detected object in the image, and is also written onto the corresponding output `centre_dot_` image.
 
 ## Contributing :pencil:
 A great place to get started is to first take a look at any [open issues](https://github.com/UCL-RITS/vetii/issues). 
