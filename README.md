@@ -145,7 +145,7 @@ $VETII/data/masati
 cd $VETII/data_preprocessing/sassoon/
 ```
 
-Download the dataset tarball - currently available through the VETII sharepoint site, but liable to move to UCL RDS in the near future - and place it in the data preprocessing directory.
+Download the dataset - currently available through the VETII sharepoint site and [UCL RDS](https://www.ucl.ac.uk/isd/how-to/how-to-access-rds-data-ucls-research-computing-platforms) - and place it in the data preprocessing directory. For access to the dataset on UCL RDS, contact one of the repository owners.
 
 Extract the dataset with
 ```bash
@@ -208,6 +208,28 @@ cp runs/train/exp4/weights/best.pt weights/sassoon_dock_final_weights.pt
 
 You should then have an equivalent set of weights to the ones found on the VETII sharepoint [here](https://liveuclac.sharepoint.com/sites/RADDISH/Shared%20Documents/VETII/Model_weights/sassoon_wandb_best_150epoch_trained_on_masati100epoch_yolov5x.pt).
 
+## Where to now? - Training on further datasets
+
+At this point you will have either produced a set of trained weights by following the previous steps, or will have cloned this repository and obtained the pre-trained weights provided. If you want to train the model on an additional dataset at this point (more images you've obtained for a different dock, maybe...) then it's vital that you pre-process the data correctly. The automated pipeline set out in [the data preprocessing section](###data-preprocessing) contains the steps required to properly format the Sassoon dock and MASATI-v2 datasets for the yolov5 model, but will need to be adapted for additional datasets. The steps to follow are:
+
+1. Gather satellite images using Google Earth (or similar). Copyright watermarks are included by default, but it's also useful to include a distance scale and compass orientation marker to standardise the images in your dataset. For the Sassoon dock dataset, images are orientated with the North compass point facing vertically upwards on the image and all images are taken at the same altitude. You may want to experiment with taking images at different altitudes so that the model is able to learn extra features in the images.
+2. Label the images with [labelImg](https://github.com/tzutalin/labelImg) (open source!) set to XML format. The software allows output directly to YOLO-txt format, but saving as XML retains image metadata that is used later.
+3. The entire data preprocessing process is contained in several scripts within `data_preprocessing/scripts`. These scripts are used for the Sassoon dock and MASATI-v2 datasets by the DVC pipeline, so shouldn't be moved around! For a dataset that you might create similar to the Sassoon dock dataset, data preprocessing consists of  
+    1. Convert xml labels to YOLO (.txt) style labels
+    2. Split the dataset into a training and test set, usually 80:20
+    3. Rename image and annotation files as sequential integers (expected by the YOLOv5 repository)
+    4. Create the correct directory structure expected by the YOLOv5 repository.
+
+All four stages are handled with Python scripts located within `data_preprocessing/scripts`. For an example dataset, do the following:
+
+1. Create a directory within `data_preprocessing/` for your dataset, e.g. `data_preprocessing/your_dataset`. Move images into an `images` directory and xml image annotation files into a `xml_annotations` directory **within** `data_preprocessing/your_dataset`
+2. Copy the `params.yaml` file from the `data_preprocessing/sassoon` directory . This assumes you're working on a similar dataset to the Sassoon Dock dataset, that you want a 75:25 train:test split and that your images are `.jpg`. **Change the dataset name** to something sensible - by default it's set to `sassoon`.
+3. Run `python ../scripts/convert_xml_to_yolotxt.py` to create a directory `yolo_annotations` that contains YOLO (.txt) format image labels
+4. Run `python ../scripts/train_test_split.py` to split the dataset into training and test sets, with a default train:test split of 75:25 defined in `params.yaml`.
+5. Run `python ../scripts/sort_yolo_images.py` to rename image and annotation files and arrange them into directories.
+6. Run `python ../scripts/prepare_yolov5.py` - this places the dataset in the `data/your_dataset` directory (if you chose that as the name in the `params.yaml` file!)
+
+At this stage your dataset is set up in the same way that the above DVC pipelines will set up the Sassoon Dock and MASATI-v2 datasets, and should be ready for use with YOLOv5!
 
 ## Inference
 *... or, detecting boats with the trained model*
@@ -271,7 +293,3 @@ The branch naming convention is `iss_<issue-number>_<short_decription>`, where `
 
 ### Running tests :microscope:
 Contributing to existing to tests or adding new ones will always be well received! Please include tests in any contributed code before requesting to merge, if appropriate.
-
-## Contact :envelope:
-
-Harry Moss - [@invariantmoss](https://twitter.com/invariantmoss)
